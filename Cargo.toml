@@ -12,6 +12,7 @@ targets = ["x86_64-pc-windows-msvc"]
 raw-window-handle = "0.3.3"
 direct2d = "0.2.0"
 directwrite = "0.1.4"
+chrono = "0.2"
 
 [dependencies.winit]
 version = "0.25.0"

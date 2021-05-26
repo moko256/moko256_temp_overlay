@@ -97,8 +97,8 @@ impl AppRenderer {
 
                     let t_format = TextFormat::create(&self.dwrite_factory)
                         .with_size(*size)
-                        .with_family("Yu Gothic UI")
-                        .with_weight(directwrite::enums::FontWeight::SemiLight)
+                        .with_family("Segoe UI")
+                        .with_weight(directwrite::enums::FontWeight::Light)
                         .build()
                         .unwrap();
                     let p_align = match v_align {

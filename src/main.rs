@@ -2,6 +2,9 @@ mod app;
 mod app_renderer;
 mod render_primitives;
 
+use std::time::Duration;
+use std::time::Instant;
+
 use app::App;
 use app_renderer::AppRenderer;
 
@@ -16,8 +19,8 @@ use winit::{
     window::WindowBuilder,
 };
 
-const TEXTURE_WIDTH: u32 = 800;
-const TEXTURE_HEIGHT: u32 = 600;
+const TEXTURE_WIDTH: u32 = 300;
+const TEXTURE_HEIGHT: u32 = 32;
 
 fn main() {
     let event_loop = EventLoop::new();
@@ -43,7 +46,7 @@ fn main() {
     app_renderer.resize(TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
     event_loop.run(move |event, _, control_flow| {
-        *control_flow = ControlFlow::Wait;
+        *control_flow = ControlFlow::WaitUntil(Instant::now() + Duration::from_millis(16 * 5));
 
         match event {
             Event::WindowEvent {
@@ -58,7 +61,7 @@ fn main() {
                 app_renderer.resize(size.width, size.height);
             }
             Event::MainEventsCleared => {
-                if app.need_redraw_and_consume() {
+                if app.update_and_check_need_redraw() {
                     window.request_redraw();
                 }
             }
