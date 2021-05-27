@@ -1,6 +1,9 @@
 use chrono::{DateTime, Duration, Local, Timelike, UTC};
 
-use crate::render_primitives::{Align, RenderPrimitives};
+use crate::{
+    render_primitives::{Align, RenderPrimitives},
+    temp_retriever,
+};
 
 pub struct App {
     width: f32,
@@ -14,10 +17,12 @@ pub struct App {
 #[derive(PartialEq)]
 struct ShowState {
     time: String,
+    cpu_temp: String,
+    gpu_temp: String,
 }
 
 impl App {
-    pub fn new<'a>(width: f32, height: f32) -> App {
+    pub fn new(width: f32, height: f32) -> App {
         let mut app = App {
             width,
             height,
@@ -60,6 +65,8 @@ impl App {
     fn update_show_state() -> ShowState {
         ShowState {
             time: Local::now().format("%H:%M").to_string(),
+            cpu_temp: temp_retriever::retrieve_cpu_temp_c().to_string() + "℃",
+            gpu_temp: temp_retriever::retrieve_gpu_temp_c().to_string() + "℃",
         }
     }
 
@@ -67,15 +74,31 @@ impl App {
         self.need_redraw = true;
         self.primitives = vec![
             RenderPrimitives::Clear {
-                color: (0x000000, 1.0),
+                color: (0x000000, 0.4),
             },
             RenderPrimitives::Text {
                 rect: (0.0, 0.0, 64.0, self.height),
                 text: self.show_state.time.clone(),
-                size: 20.0,
+                size: 18.0,
                 color: (0xFFFFFF, 1.0),
                 v_align: Align::Center,
                 h_align: Align::Center,
+            },
+            RenderPrimitives::Text {
+                rect: (64.0, 0.0, 128.0, self.height),
+                text: self.show_state.cpu_temp.clone(),
+                size: 18.0,
+                color: (0xFFFFFF, 1.0),
+                v_align: Align::Center,
+                h_align: Align::End,
+            },
+            RenderPrimitives::Text {
+                rect: (128.0, 0.0, 192.0, self.height),
+                text: self.show_state.gpu_temp.clone(),
+                size: 18.0,
+                color: (0xFFFFFF, 1.0),
+                v_align: Align::Center,
+                h_align: Align::End,
             },
         ];
     }

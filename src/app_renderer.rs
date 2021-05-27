@@ -97,7 +97,7 @@ impl AppRenderer {
 
                     let t_format = TextFormat::create(&self.dwrite_factory)
                         .with_size(*size)
-                        .with_family("Segoe UI")
+                        .with_family("Yu Gothic UI")
                         .with_weight(directwrite::enums::FontWeight::Light)
                         .build()
                         .unwrap();
