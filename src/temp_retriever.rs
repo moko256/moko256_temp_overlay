@@ -1,10 +1,14 @@
+use std::os::windows::process::CommandExt;
 use std::{process::Command, str::from_utf8};
+
+use winapi::um::winbase::DETACHED_PROCESS;
 
 pub fn retrieve_cpu_temp_c() -> Option<i32> {
     let cmd_result = Command::new("wmic")
     .args(
         r"/namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CurrentTemperature /value".split(' ')
     )
+    .creation_flags(DETACHED_PROCESS)
     .output()
     .ok()?
     .stdout;
@@ -25,6 +29,7 @@ pub fn retrieve_gpu_temp_c() -> Option<i32> {
     from_utf8(
         Command::new("nvidia-smi")
             .args(["--query-gpu=temperature.gpu", "--format=csv"].as_ref())
+            .creation_flags(DETACHED_PROCESS)
             .output()
             .ok()?
             .stdout
