@@ -65,8 +65,12 @@ impl App {
     fn update_show_state() -> ShowState {
         ShowState {
             time: Local::now().format("%H:%M").to_string(),
-            cpu_temp: temp_retriever::retrieve_cpu_temp_c().to_string() + "℃",
-            gpu_temp: temp_retriever::retrieve_gpu_temp_c().to_string() + "℃",
+            cpu_temp: temp_retriever::retrieve_cpu_temp_c()
+                .map_or_else(|| "--".to_string(), |x| x.to_string())
+                + "℃",
+            gpu_temp: temp_retriever::retrieve_gpu_temp_c()
+                .map_or_else(|| "--".to_string(), |x| x.to_string())
+                + "℃",
         }
     }
 
