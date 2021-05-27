@@ -1,4 +1,4 @@
-use chrono::{DateTime, Duration, Local, Timelike, UTC};
+use chrono::{DateTime, Duration, Local, UTC};
 
 use crate::{
     render_primitives::{Align, RenderPrimitives},

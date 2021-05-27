@@ -22,21 +22,18 @@ pub fn retrieve_cpu_temp_c() -> Option<i32> {
 }
 
 pub fn retrieve_gpu_temp_c() -> Option<i32> {
-    Some(
-        from_utf8(
-            Command::new("nvidia-smi")
-                .args(["--query-gpu=temperature.gpu", "--format=csv"].as_ref())
-                .output()
-                .ok()?
-                .stdout
-                .as_ref(),
-        )
-        .ok()?
-        .lines()
-        .skip(1)
-        .next()?
-        .trim()
-        .parse::<i32>()
-        .ok()?,
+    from_utf8(
+        Command::new("nvidia-smi")
+            .args(["--query-gpu=temperature.gpu", "--format=csv"].as_ref())
+            .output()
+            .ok()?
+            .stdout
+            .as_ref(),
     )
+    .ok()?
+    .lines()
+    .nth(1)?
+    .trim()
+    .parse::<i32>()
+    .ok()
 }
