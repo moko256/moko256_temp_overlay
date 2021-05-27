@@ -50,9 +50,7 @@ impl App {
             if self.show_state != next_show_state {
                 self.show_state = next_show_state;
                 self.invalidate();
-                println!("changed");
             }
-            println!("{}", now_instant.second());
         }
 
         let result = self.need_redraw;

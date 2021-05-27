@@ -1,4 +1,4 @@
-use std::{borrow::Borrow, process::Command, str::from_utf8};
+use std::{process::Command, str::from_utf8};
 
 pub fn retrieve_cpu_temp_c() -> Option<i32> {
     let cmd_result = Command::new("wmic")
